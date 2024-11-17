@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản lý nhân viên</title>
+    <!-- Font awesome  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="../css/output.css" />
+  </head>
+  <body>
+    <br />
+    <br />
+    <br />
+    <div class="container mx-auto">
+      <div class="flex flex-wrap md:flex-nowrap justify-between">
+        <div class="w-full md:w-2/3 text-white">
+          <button id="btnThemMoiNV" class="bg-green-500 py-4 px-6 rounded-md">
+            <i class="fa fa-plus mr-1"></i>
+            Thêm Mới
+          </button>
+        </div>
+        <div class="w-full md:w-1/3 mt-3">
+          <div class="flex">
+            <input
+              type="text"
+              placeholder="Nhập từ khoá..."
+              id="searchInput"
+              class="p-4 outline-none border-2 border-solid border-black-500 rounded-tl-md rounded-bl-md"
+            />
+            <button
+              id="search"
+              class="py-4 px-6 rounded-tr-md rounded-br-md border-2 border-solid border-black-500 border-l-0"
+            >
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Table Start  -->
+      <div>
+        <table class="border border-gray-300 border-collapse w-full mt-10">
+          <thead>
+            <tr>
+              <th class="border border-gray-300 px-4 py-2">Id</th>
+              <th class="border border-gray-300 px-4 py-2">Tài khoản</th>
+              <th class="border border-gray-300 px-4 py-2">Họ tên</th>
+              <th class="border border-gray-300 px-4 py-2">Email</th>
+              <th class="border border-gray-300 px-4 py-2">Ngày làm</th>
+              <th class="border border-gray-300 px-4 py-2">Lương cơ bản</th>
+              <th class="border border-gray-300 px-4 py-2">Chức vụ</th>
+              <th class="border border-gray-300 px-4 py-2">Giờ làm</th>
+              <th class="border border-gray-300 px-4 py-2">Tổng lương</th>
+              <th class="border border-gray-300 px-4 py-2">Xếp loại</th>
+              <th class="border border-gray-300 px-4 py-2">Action</th>
+            </tr>
+          </thead>
+          <tbody id="tbodyNhanVien"></tbody>
+        </table>
+      </div>
+      <!-- End Table  -->
+      <!-- Model Start  -->
+      <div
+        id="myModal"
+        class="fixed inset-0 bg-black bg-opacity-50 justify-center items-center z-50 top-[-110%] transition-all duration-500 ease-in-out hidden"
+      >
+        <!-- Model content  -->
+        <div class="bg-white p-6 rounded-md w-[500px] mx-auto relative">
+          <!-- <h2 class="text-xl font-bold mb-4 text-center">
+            Thêm hoặc Cập nhật Nhân viên
+          </h2> -->
+          <button id="rightCloseModel" class="absolute right-3 top-3">
+            <i class="fa fa-times-circle text-2xl"></i>
+          </button>
+          <div class="form-content">
+            <div class="form-group">
+              <label for="">ID</label>
+              <input
+                type="text"
+                id="IdNV"
+                placeholder="Id sẽ được hệ thống tạo tự động"
+                class="w-full border-2 border-solid border-black-500 outline-none bg-gray-300 opacity-80"
+                readonly
+              />
+            </div>
+            <div class="form-group">
+              <label for="">Tên tài khoản</label>
+              <input
+                type="text"
+                id="tenTK"
+                placeholder="Nhập vào tài khoản nhân viên"
+                class="w-full border-2 border-solid border-black-500 outline-none"
+              />
+              <div class="error" id="errTenTK"></div>
+            </div>
+            <div class="form-group">
+              <label for="">Tên nhân viên</label>
+              <input
+                type="text"
+                id="tenNV"
+                placeholder="Nhập vào tên nhân viên"
+                class="w-full border-2 border-solid border-black-500 outline-none"
+              />
+              <div class="error" id="errTenNV"></div>
+            </div>
+            <div class="form-group">
+              <label for="">Email</label>
+              <input
+                type="text"
+                id="email"
+                placeholder="Nhập vào Email"
+                class="w-full border-2 border-solid border-black-500 outline-none"
+              />
+              <div class="error" id="errEmail"></div>
+            </div>
+            <div class="form-group">
+              <label for="">Mật khẩu</label>
+              <input
+                type="password"
+                id="matKhau"
+                placeholder="Nhập vào Mật khẩu"
+                class="w-full border-2 border-solid border-black-500 outline-none"
+              />
+              <div class="error" id="errMatKhau"></div>
+            </div>
+            <div class="form-group">
+              <label for="">Ngày làm</label>
+              <input
+                type="text"
+                id="ngayLam"
+                placeholder="Nhập vào số ngày làm"
+                class="w-full border-2 border-solid border-black-500 outline-none"
+              />
+              <div class="error" id="errNgayLam"></div>
+            </div>
+            <div class="form-group">
+              <label for="">Lương cơ bản</label>
+              <input
+                type="text"
+                id="luongCoBan"
+                placeholder="Nhập vào lương cơ bản"
+                class="w-full border-2 border-solid border-black-500 outline-none"
+              />
+              <div class="error" id="errLuongCoBan"></div>
+            </div>
+            <div class="form-group">
+              <div class="flex flex-col">
+                <label for="">Chức vụ</label>
+                <select
+                  name="chucVu"
+                  id="chucVu"
+                  class="p-1 border-2 border-solid border-black-500"
+                >
+                  <option value="Nhân viên">Nhân viên</option>
+                  <option value="Trưởng phòng">Trưởng phòng</option>
+                  <option value="Giám đốc">Giám đốc</option>
+                </select>
+              </div>
+              <div class="error" id="errChucVu"></div>
+            </div>
+            <div class="form-group">
+              <label for="">Giờ làm</label>
+              <input
+                type="text"
+                id="gioLam"
+                placeholder="Nhập vào số giờ làm"
+                class="w-full border-2 border-solid border-black-500 outline-none"
+              />
+              <div class="error" id="errGioLam"></div>
+            </div>
+            <div class="flex justify-center gap-4 mt-1">
+              <button
+                id="btnCloseModel"
+                class="py-4 px-8 bg-gray-300 rounded-md"
+              >
+                Đóng
+              </button>
+              <button
+                id="btnThem"
+                class="py-4 px-8 bg-blue-500 rounded-md"
+                onclick="addNhanVien()"
+              >
+                Thêm
+              </button>
+              <button
+                id="btnCapNhat"
+                class="py-4 px-8 bg-yellow-300 rounded-md"
+              >
+                Cập nhật
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"
+      integrity="sha512-DdX/YwF5e41Ok+AI81HI8f5/5UsoxCVT9GKYZRIzpLxb8Twz4ZwPPX+jQMwMhNQ9b5+zDEefc+dcvQoPWGNZ3g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script type="module" src="../controllers/main.js"></script>
+  </body>
+</html>
